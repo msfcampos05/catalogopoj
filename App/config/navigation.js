@@ -109,7 +109,7 @@ const RootStackScreen = () => {
     setTimeout(() => {
       setIsLoading(!isLoading);
       //Para passar direto basta comentar o "Setuser"
-      //setUser({});
+      setUser({});
     }, 500);
   }, []);
 
