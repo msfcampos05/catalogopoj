@@ -8,6 +8,18 @@ Tenha um catalogo de cupons virtual para sua loja. Com ele, suas promoções pod
 
 You'll need to have [Expo](https://expo.io/learn) installed on your machine in order to follow along.
 
+## Functionality Implementention Sprints
+
+- [x] Login Screen, SingUp Screen
+- [x] Tabs
+- [x] Home, Wallet, Profile Screen
+- [] Add Cupom Screen
+- [] Product Description Screen
+- [] SearchBar
+- [] QRCode Generator
+- [] Firebase Integration - CRUD
+- [] Generate apk signed
+- [] Tests
 ## Installation
 
 - `git clone https://github.com/msfcampos05/DescontoFacilApp.git`
