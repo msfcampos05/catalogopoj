@@ -31,15 +31,55 @@ Tenha um catalogo de cupons virtual para sua loja. Com ele, suas promoções pod
 - [x] Firebase Integration - CRUD
 - [ ] Generate apk signed
 - [ ] Tests
+
+You'll need to have [Expo](https://expo.io/learn) installed on your machine in order to follow along.
+
+## Firebase Configuration
+Add a `config/firebase.js` file with the following content (make sure to fill in the values from your own firebase account):
+
+```js
+export default {
+  API_KEY: <API_KEY>,
+  AUTH_DOMAIN: <AUTH_DOMAIN>,
+  DATABASE_URL: <DATABASE_URL>,
+  PROJECT_ID: <PROJECT_ID>,
+  STORAGE_BUCKET: <STORAGE_BUCKET>,
+  MESSAGING_SENDER_ID: <MESSAGING_SENDER_ID>,
+};
+```
+
 ## Installation
 
 - `git clone https://github.com/msfcampos05/DescontoFacilApp.git`
 - `yarn install` / `npm install`
 
+NPM:
+
+```sh
+npm install
+```
+
+YARN:
+
+```sh
+yarn install
+```
+
+
 ## Running
 
-### Use the `yarn start`, `yarn ios`, or `yarn android` tasks as detailed below.
+### Use the `yarn/expo/npm start`, `yarn/npm ios`, or `yarn/npm android` tasks as detailed below.
+NPM && EXPO:
 
+```sh
+npm start or expo start
+```
+
+YARN:
+
+```sh
+yarn start
+```
   ## Available Scripts
 
   This app was initialized using Yarn and therefore you should use Yarn commands going forward.
@@ -73,5 +113,6 @@ Below you'll find information about performing common tasks.
 
 
 If you're interested about DescontoFacilApp be sure to visit [DescontoFacilApp](https://msfcampos05.wixsite.com/guiadecomprasapp)!
+
 
 
