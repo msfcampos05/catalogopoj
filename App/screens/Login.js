@@ -15,17 +15,21 @@ import {
 import logo from '../../assets/Logo-1.png';
 
 //Lottie depence 
-//import Lottie from 'lottie-react-native';
+import Lottie from 'lottie-react-native';
 //Lottie File 
-//import dataloading from '../Components/loaders/leviosa.json';
+import dataloading from '../Components/loaders/mario.json';
 
 
-
+import * as firebase from 'firebase'
+import Firebase from '../config/firebase'
+import "firebase/auth";
 
 export default ({ navigation }) => {
 
 
-  
+  if (!firebase.apps.length) {
+    firebase.initializeApp(Firebase);
+  }
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -55,12 +59,107 @@ export default ({ navigation }) => {
 
       alertDefault('O campo de e-mail ou senha não podem estar em branco');
 
-    } 
+    } else {
+
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+
+          //chek is is new user to redirect to welcome screen
+
+          setLoading(true);
+          //Loading awai 1000ms to close
+          setTimeout(() => {
+            setLoading(false);
+            // if isNewUser is true direct to welcome screen else to home called tab1 (condição ternária javascript)
+          },
+            3500);
+
+        })
+        .catch(function (error) {
+
+          var errorCode = error.code;
+
+          setLoading(false);
+
+          if (errorCode === 'auth/wrong-password') {
+
+            alertDefault('Sua senha não corresponde a senha cadastrada!');
+
+          } else if (errorCode === 'auth/invalid-email') {
+
+            alertDefault('Verifique se o email foi digitado corretamente!');
+
+          } else if (errorCode === 'auth/user-disabled') {
+
+            alertDefault('Seu usuário foi desabilitado!');
+
+
+          } else if (errorCode === 'auth/user-not-found') {
+
+            alertDefault('Seu usuário não foi encontrato no sistema!');
+
+          } else {
+            alertDefault('Verifique a conexão com a internet ou contate o administrador do sistema!');
+          }
+          console.log(error);
+
+        });
+
+    };
+
 
   };
 
+  const forgotPassword = async () =>  {
 
-  
+    if (email == null || email === '') {
+
+      alertDefault('Digite um email para redefinir sua senha!');
+
+    } else {
+
+      setLoading(true);
+      await firebase.auth().sendPasswordResetEmail(email)
+        .then(function (user) {
+
+          //Loading awai 1000ms to close
+          setTimeout(() => {
+            setLoading(false);
+            Alert.alert('E-mail Enviado!', 'Verifique sua caixa de entrada no email digitado!', [
+              {
+                text: 'Fechar',
+                style: 'cancel',
+              }
+            ]);
+          },
+            1500);
+
+        })
+    }
+  }
+
+  //loading
+  if (loading == true) {
+    return (
+      <View
+        style={{
+
+          flex: 1,
+          alignContent: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#694fad'
+        }}>
+
+        <Lottie source={dataloading} style={{ width: 300, height: 300 }} autoPlay loop />
+        <Text style={{ color: '#ffff', fontWeight: 'bold', marginTop: 8 }}>
+          Aguarde...Estamos carregando tudo para você!
+          </Text>
+      </View>
+    )
+  }
 
   return (
 
@@ -69,8 +168,8 @@ export default ({ navigation }) => {
       style={styles.container}
     >
       <StatusBar
-        hidden={true}
-        backgroundColor='#694fad'
+        hidden={false}
+        backgroundColor='#f05a5b'
       />
 
       <Image style={styles.Image} source={logo} />
@@ -106,16 +205,16 @@ export default ({ navigation }) => {
 
         />
         <TouchableOpacity
-
+          onPress={forgotPassword}
           style={styles.buttonf}
         >
           <Text style={styles.buttonTextf}>Esqueçeu sua senha? Clique Aqui!</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonf2}
-
+          onPress={() => navigation.navigate('SignUp')}
         >
-          <Text style={styles.buttonTextf}>Entre com sua conta Google</Text>
+          <Text style={styles.buttonTextf}>Não tem conta?  Inscreva-se...</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleSubmit}
@@ -134,7 +233,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#fff",
   },
   lottie: {
     width: 300,
@@ -188,8 +286,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 40,
-    borderWidth:0.5,
-    marginBottom:10
+    borderWidth: 0.5,
+    marginBottom: 10
   },
   buttonText: {
     color: '#FFF',
