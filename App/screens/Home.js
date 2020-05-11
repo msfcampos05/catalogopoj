@@ -8,15 +8,11 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  Alert,
-  SafeAreaView,
+  Alert
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import addImage from '../../assets/plusCategory.png';
-import * as firebase from 'firebase';
-import Lottie from 'lottie-react-native';
-import dataloading from '../Components/loaders/home-loading.json';
-import deleteLoading from '../Components/loaders/check.json';
+
 const { width, height } = Dimensions.get('window');
 
 export default class Home extends Component {
@@ -26,12 +22,12 @@ export default class Home extends Component {
 
     this.state = {
       query: null,
+      dataSource: [],
+      dataBackup: [],
       loading: false,
-      data: [],
+      dataPd: [],
       whatoading: 1
     };
-    
-    this.dataBackup = [];
   }
 
   //Alert to confirm add item to wallet
@@ -46,115 +42,10 @@ export default class Home extends Component {
     )
 
   }
-  //add item to wallet 
-  handledeleteItembyId = async (id) =>{
-
-    this.setState({whatoading: 'delete' });
-    this.setState({loading: true });
-
-    await firebase.firestore()
-      .collection("products")
-      .doc(id)
-      .delete().then( ()=> {
-      setTimeout(() => {
-        this.setState({loading: false });
-      },
-        300);
-        console.log("Document successfully deleted!");
-      }).catch(function (error) {
-        console.error("Error removing document: ", error);
-      });
-  }
-
-  //Alert to confirm add item to wallet
-  addItemWalletById(id) {
-    Alert.alert(
-      'Deseja excuir o cupom?',
-      'Esta ação não pode ser desfeita!',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        { text: 'Confirmar', onPress: () => this.handledeleteItembyId(id) },
-      ],
-      { cancelable: false }
-    )
-
-  }
-  //Get user info from firebase
-  getFirebaseData = async () => {
-
-    await firebase.firestore()
-      .collection('products')
-      .onSnapshot(querySnapshot => {
-        const list = [];
-        querySnapshot.forEach(doc => {
-          const { descricao, img, produto, valor } = doc.data();
-          list.push({
-            id: doc.id,
-            descricao,
-            img,
-            produto,
-            valor
-          });
-
-        });
-        this.dataBackup = list;
-
-        this.setState({
-          data: list,
-        })
-
-        if (this.loading) {
-          this.setState({
-            loading: false
-          })
-        }
-      });
-  }
-
-  //Mount component 
-  componentDidMount() {
-    console.log(firebase.auth().currentUser.photoURL)
-    var Unmount;
-
-    Unmount = this.getFirebaseData().then(() => {
-      this.setState({whatoading: 1 });
-      this.setState({loading: true });
-      setTimeout(() => {
-        this.setState({loading: false });
-      },
-        2000);
-    }
-    );
-
-    this.componentWillUnmount(Unmount)
-  }
 
 
-  componentWillUnmount(Unmount) {
-    Unmount;
-  }
-
-  //SearchBar working 
+  //SearchBar still not working 
   filterItem = event => {
-
-    //Armazena texto do input search
-    var text= event.nativeEvent.text;
-    
-    this.setState({
-      query: text,
-    });
-
-    const newData = this.dataBackup.filter(item => {
-      const itemData = `${item.produto.toUpperCase()} ${item.descricao.toUpperCase()} ${item.valor.toUpperCase()}`;
-      const textData = text.toUpperCase();
-
-      return itemData.indexOf(textData) > -1;
-    });
-
-   this.setState({
-      data: newData,
-    });
-
   };
 
   //Separator for flat list 
@@ -166,25 +57,10 @@ export default class Home extends Component {
 
   //Render 
   render() {
-    //Loading Lottie based on user action
-    if (this.state.loading == true && this.state.whatoading == 1) {
-      return (
-        <View style={{ flex: 1,justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#9b58b6' }}>
-          <Lottie source={dataloading} style={{ width: 350, height: 350 }} autoPlay loop />
-          <Text style={{ textAlign: 'center', color: '#ffff', fontSize: 12 }}>Aguarde...</Text>
-        </View>
-      )
-    }else if (this.state.loading == true && this.state.whatoading == 'delete') {
-      return (
-          <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#ffff' }}>
-              <Lottie source={deleteLoading} style={{ width: 350, height: 350 }} autoPlay loop />
-          </View>
-      )
-  }
     const { navigation } = this.props;
     console.disableYellowBox = true;
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
 
         <StatusBar barStyle="light-content" backgroundColor="#ff5b77" />
 
@@ -212,7 +88,7 @@ export default class Home extends Component {
         </View>
 
         <FlatList
-          data={this.state.data}
+          data={this.state.dataPd}
           ItemSeparatorComponent={() => this.separator()}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
@@ -255,7 +131,7 @@ export default class Home extends Component {
             </View>
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }
@@ -353,13 +229,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
 });
-
-
-
-
-
-
-
-
-
 
