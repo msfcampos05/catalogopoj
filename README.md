@@ -1,12 +1,23 @@
-# catalogoproj
+<h1 align="center">
+    <img alt="DescontoFacilApp" title="#delicinha" src="assets/icon.png" width="250px" />
+</h1>
+
+<h1 align="center">
+  DescontoFácilApp
+</h1>
+
+<h4 align="center">
+  ☕ Code and coffee
+</h4>
 
 ## Um aplicativo para potencializar suas vendas
 
 Descontos e promoções de maneira fácil e intuitiva
 
-Tenha um catalogo de cupons virtual para sua loja. Com ele, suas promoções podem atingir um publico ainda maior. O DescontoFacilApp é pensado para que seu cliente possa visualizar promoções e guardar cupons para uso posterior. Esses cupons podem ser validados diretamente no caixa, sem burocracia, sem complicações. O cliente fica satisfeito e o alcance do seu publico fica maior.
+Tenha um catalogo de cupons virtual para sua loja. Com ele, suas promoções podem atingir um publico ainda maior. O DescontoFacilApp é pensado para que seu cliente possa visualizar promoções e guardar cupons para uso posterior. Esses cupons podem ser validados diretamente no caixa, sem burocracia, sem complicações. O cliente fica satisfeito e o alcance do seu publico fica maior. 
 
-You'll need to have [Expo](https://expo.io/learn) installed on your machine in order to follow along.
+## Visite nosso site!!!
+[https://msfcampos05.wixsite.com/guiadecomprasapp](https://msfcampos05.wixsite.com/guiadecomprasapp)
 
 ## Functionality Implementention Sprints
 
