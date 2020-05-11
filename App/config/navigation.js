@@ -12,10 +12,13 @@ import Loading from "../screens/Loading";
 import HomeScreen from "../screens/Home";
 import ProfileScreen from "../screens/Profile";
 import WalletScreen from "../screens/Wallet";
-import ProductScreen from "../screens/productInfo.js";
+import ProductScreen from "../screens/productInfo";
 import addProductsScreem from "../screens/addProduct";
+import SignUpScreen from '../screens/signUp';
 
-
+//instancia do firebase
+import "firebase/auth";
+import * as firebase from 'firebase'
 
 const AppTabs = createBottomTabNavigator();
 const RootStack = createStackNavigator();
@@ -93,8 +96,12 @@ const AppTabsScreen = () => (
 //Telas de autenticação e login
 
 const AuthStackScreen = () => (
-  <AuthStack.Navigator>
+  <AuthStack.Navigator    
+  screenOptions={{
+    headerShown: false
+  }}>
     <AuthStack.Screen name="Login" component={LoginScreen} />
+    <AuthStack.Screen name="SignUp" component={SignUpScreen} />
   </AuthStack.Navigator>
 );
 
@@ -103,14 +110,18 @@ const RootStackScreen = () => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState(null);
 
-  
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      setUser(user)
+    } else {
+      setUser(null)
+    }
+  });
 
   React.useEffect(() => {
     setTimeout(() => {
       setIsLoading(!isLoading);
-      //Para passar direto basta comentar o "Setuser"
-      setUser({});
-    }, 500);
+    }, 100);
   }, []);
 
   return (
