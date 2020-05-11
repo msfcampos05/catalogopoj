@@ -14,10 +14,10 @@ You'll need to have [Expo](https://expo.io/learn) installed on your machine in o
 - [x] Tabs
 - [x] Home, Wallet, Profile Screen
 - [ ] Add Cupom Screen
-- [ ] Product Description Screen
+- [x] Product Description Screen
 - [ ] SearchBar
 - [ ] QRCode Generator
-- [ ] Firebase Integration - CRUD
+- [x] Firebase Integration - CRUD
 - [ ] Generate apk signed
 - [ ] Tests
 ## Installation
