@@ -10,7 +10,7 @@
   ☕ Code and coffee
 </h4>
 
-## Um aplicativo para potencializar suas vendas
+## Um aplicativo para potencializar suas vendas.
 
 Descontos e promoções de maneira fácil e intuitiva
 
