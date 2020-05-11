@@ -13,7 +13,7 @@ You'll need to have [Expo](https://expo.io/learn) installed on your machine in o
 - [x] Login Screen, SingUp Screen
 - [x] Tabs
 - [x] Home, Wallet, Profile Screen
-- [ ] Add Cupom Screen
+- [x] Add Cupom Screen
 - [x] Product Description Screen
 - [ ] SearchBar
 - [ ] QRCode Generator
