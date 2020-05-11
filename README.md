@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="DescontoFacilApp" title="#delicinha" src="assets/icon-1.png" width="250px" />
+    <img alt="DescontoFacilApp" title="#delicinha" src="assets/icon.png" width="250px" />
 </h1>
 
 <h1 align="center">
