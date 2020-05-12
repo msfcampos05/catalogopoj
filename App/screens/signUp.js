@@ -2,12 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, TextInput, Image, Button, StatusBar } from "react-native";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
-import { Ionicons } from "@expo/vector-icons";
 import FireFunctions from "../config/FireFunctions";
-import * as firebase from 'firebase'
 import * as ImagePicker from "expo-image-picker";
 
 export default class addProductScreen extends React.Component {
+  
+  //Variáveis de estado
   state = {
     username: '', password: '', email: '', adress: '', image: null, phone_number: ''
   };
@@ -15,7 +15,8 @@ export default class addProductScreen extends React.Component {
   componentDidMount() {
     this.getPhotoPermission();
   }
-  //Permissão para camera 
+
+  //Permissão para camera no iOS
   getPhotoPermission = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -26,6 +27,7 @@ export default class addProductScreen extends React.Component {
     }
   };
 
+  //Criar usuário Firebase usando uma função definina no arquivo Firefunctions dentro da pasta App/config/FireFunctions.js
   handleCreate = () => {
     FireFunctions.shared
       .addUser({ username: this.state.username.trim(), phone_number: this.state.phone_number.trim(), email: this.state.email.trim(), password: this.state.password.trim(), adress: this.state.adress.trim(), localUri: this.state.image })
@@ -38,11 +40,11 @@ export default class addProductScreen extends React.Component {
       });
   };
 
+  //Função para abrir a camera e pegar imagem da galeria
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3]
     });
 
     if (!result.cancelled) {
@@ -50,6 +52,7 @@ export default class addProductScreen extends React.Component {
     }
   };
 
+  //Renderizar componentes na tela 
   render() {
     return (
       <>
