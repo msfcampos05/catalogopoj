@@ -11,12 +11,15 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
+
 import { FlatList } from 'react-native-gesture-handler';
 import addImage from '../../assets/plusCategory.png';
 import * as firebase from 'firebase';
 import Lottie from 'lottie-react-native';
 import dataloading from '../Components/loaders/home-loading.json';
 import deleteLoading from '../Components/loaders/check.json';
+
+//Pega as dimenções da tela
 const { width, height } = Dimensions.get('window');
 
 export default class Home extends Component {
@@ -34,7 +37,7 @@ export default class Home extends Component {
     this.dataBackup = [];
   }
 
-  //add item to wallet 
+  //Adiciona item a carteira pegando id do produto passados pelo Button
   handledeleteItembyId = async (id) =>{
 
     this.setState({whatoading: 'delete' });
@@ -54,7 +57,7 @@ export default class Home extends Component {
       });
   }
 
-  //Alert to confirm add item to wallet
+  //Alert para confirmar item adicionado a wallet 
   addItemWalletById(id) {
     Alert.alert(
       'Deseja excuir o cupom?',
@@ -67,16 +70,17 @@ export default class Home extends Component {
     )
 
   }
-  //Get user info from firebase
+
+  //Pegar array de produtos do firebase
   getFirebaseData = async () => {
 
     await firebase.firestore()
-      .collection('products')
+      .collection('products') //Coleção 'products'
       .onSnapshot(querySnapshot => {
         const list = [];
-        querySnapshot.forEach(doc => {
+        querySnapshot.forEach(doc => { //Para cada documento
           const { descricao, img, produto, valor } = doc.data();
-          list.push({
+          list.push({ 
             id: doc.id,
             descricao,
             img,
@@ -85,8 +89,8 @@ export default class Home extends Component {
           });
 
         });
-        this.dataBackup = list;
 
+        //Guarda os dados na variável data pegos através do push no array data[]
         this.setState({
           data: list,
         })
@@ -113,7 +117,6 @@ export default class Home extends Component {
         2000);
     }
     );
-
     this.componentWillUnmount(Unmount)
   }
 
@@ -122,23 +125,21 @@ export default class Home extends Component {
     Unmount;
   }
 
-  //SearchBar 
+  //SearchBar Ainda não funcionando 
   filterItem = event => {
-
-
 
   };
 
-  //Separator for flat list 
+  //Separador da flatlist
   separator = () => {
     return (
       <View style={{ height: 5, width: '100%', backgroundColor: '#e5e5e5' }} />
     );
   };
 
-  //Render 
+  //Render Loading
   render() {
-    //Loading Lottie based on user action
+    //Loading Lottie 
     if (this.state.loading == true && this.state.whatoading == 1) {
       return (
         <View style={{ flex: 1,justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#9b58b6' }}>
@@ -153,8 +154,10 @@ export default class Home extends Component {
           </View>
       )
   }
+
     const { navigation } = this.props;
     console.disableYellowBox = true;
+
     return (
       <SafeAreaView style={styles.container}>
 
@@ -188,6 +191,7 @@ export default class Home extends Component {
           ItemSeparatorComponent={() => this.separator()}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
+            
             return (
               <TouchableOpacity
                 onLongPress={() => this.addItemWalletById(item.id)}
@@ -218,6 +222,7 @@ export default class Home extends Component {
                 </View>
               </TouchableOpacity>
             );
+
           }}
         />
         <View>
