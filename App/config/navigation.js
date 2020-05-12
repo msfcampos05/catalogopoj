@@ -23,7 +23,6 @@ import * as firebase from 'firebase'
 const AppTabs = createBottomTabNavigator();
 const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
-const ProductInfoStack = createStackNavigator();
 const HomeStack = createStackNavigator();
 
 const HomeStackScreen = () => (
@@ -127,7 +126,7 @@ const RootStackScreen = () => {
   return (
     <RootStack.Navigator
       headerMode="none"
-      screenOptions={{ animationEnabled: false }}
+      screenOptions={{ animationEnabled: true }}
 
     >
       {isLoading ? (
