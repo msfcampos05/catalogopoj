@@ -1,8 +1,11 @@
 import React from "react";
 import { View } from "react-native";
+
 import { NavigationContainer } from "@react-navigation/native";
+
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import { Ionicons } from "@expo/vector-icons";
 import 'react-native-gesture-handler';
 
@@ -25,6 +28,7 @@ const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const HomeStack = createStackNavigator();
 
+//Home Stack Navigator que contem a página Home e a página ProductDetails
 const HomeStackScreen = () => (
   <HomeStack.Navigator
     screenOptions={{
@@ -45,8 +49,7 @@ const HomeStackScreen = () => (
   </HomeStack.Navigator>
 );
 
-//Tab Navigator
-
+//Tab Navigator - Tab bar ou barra de tabs menu inferior contem 3 tabs Home, Wallet e Profile 
 const AppTabsScreen = () => (
 
   <AppTabs.Navigator>
@@ -92,8 +95,7 @@ const AppTabsScreen = () => (
   </AppTabs.Navigator>
 );
 
-//Telas de autenticação e login
-
+//Telas de autenticação e login AuthStack navigator
 const AuthStackScreen = () => (
   <AuthStack.Navigator    
   screenOptions={{
@@ -105,10 +107,14 @@ const AuthStackScreen = () => (
 );
 
 
+
+//Define o navegador root para ir para tela de Login ou Home  com base no estado de autenticação que vem do firebase (currentUser)
 const RootStackScreen = () => {
+
   const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState(null);
 
+  //Pegar CurrentUser é autenticado vai para tabs caso contratio é null e vai para login
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
       setUser(user)
@@ -121,20 +127,20 @@ const RootStackScreen = () => {
     setTimeout(() => {
       setIsLoading(!isLoading);
     }, 100);
-  }, []);
+  }, []); 
 
   return (
     <RootStack.Navigator
       headerMode="none"
       screenOptions={{ animationEnabled: true }}
 
-    >
-      {isLoading ? (
+    > 
+      {isLoading ? ( 
         <RootStack.Screen name="Loading" component={Loading} />
-      ) : user ? (
-        <RootStack.Screen name="AppTabsScreen" component={AppTabsScreen} />
+      ) : user ? ( //se user != null ele carrega a tela vai para tabs
+        <RootStack.Screen name="AppTabsScreen" component={AppTabsScreen} /> //Tab Navigator - Tab bar ou barra de tabs menu inferior contem 3 tabs Home, Wallet e Profile 
       ) : (
-        <RootStack.Screen name="AuthStackScreen" component={AuthStackScreen} />
+        <RootStack.Screen name="AuthStackScreen" component={AuthStackScreen} /> //Caso user == null ele vai para AuthStackScreen Telas de autenticação e login AuthStack navigator
           )}
 
     </RootStack.Navigator>
@@ -148,4 +154,5 @@ export default () => {
     </NavigationContainer>
   );
 };
+
 
