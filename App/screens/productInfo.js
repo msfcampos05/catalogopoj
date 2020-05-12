@@ -7,65 +7,71 @@ import {
   Image,
   Alert,
   ScrollView,
-  FlatList,
-  Button,
   StatusBar
 } from 'react-native';
 import * as firebase from 'firebase';
 
-function DetailsScreen ({ route, navigation }) {
+function DetailsScreen({ route, navigation }) {
 
-  /* 2. Get the param */
+  /* 2. Pegar parametros passados pelo navigate página home */
   const { itemId } = route.params;
   const { itemName } = route.params;
   const { itemPrice } = route.params;
   const { itemDescription } = route.params;
   const { itemImg } = route.params;
 
+  //Função para adicionar itens a carteira do usuário logado
   async function clickEventListener() {
 
-    console.log(itemName)
-        await firebase.firestore()
-                .collection('users')
-                .doc(firebase.auth().currentUser.uid)
-                .collection('wallet')
-                .doc(itemId)
-                .set({
-                    produto: itemName,
-                    descricao: itemDescription,
-                    valor: itemPrice,
-                    img: itemImg,
-                    valid: '3'
-                })
-                .then(function () {
-                  navigation.navigate('Home');
-                  Alert.alert("Sucesso", "Cupom adicionado a carteira")
-                })
-                .catch(function (error){
-                  Alert.alert("Desculpe", "Houve um erro " + error)
-                });
+    await firebase.firestore() //Banco de dados Firestore 
+      .collection('users') 
+      .doc(firebase.auth().currentUser.uid)
+      .collection('wallet')
+      .doc(itemId)
+      .set({
+        produto: itemName,
+        descricao: itemDescription,
+        valor: itemPrice,
+        img: itemImg,
+        valid: '3'
+      })
+      .then(function () {
+        navigation.navigate('Home');
+        Alert.alert("Sucesso", "Cupom adicionado a carteira")
+      })
+      .catch(function (error) {
+        Alert.alert("Desculpe", "Houve um erro " + error)
+      });
   }
 
   return (
     <View style={styles.container}>
+
       <StatusBar barStyle="light-content" backgroundColor="#ff5b77" />
+
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Desconto Fácil App</Text>
       </View>
+
       <ScrollView>
+
         <View style={{ alignItems: 'center', marginHorizontal: 30 }}>
-          <Image resizeMode="contain" style={styles.productImg} source={{ uri: itemImg}} />
+          <Image resizeMode="contain" style={styles.productImg} source={{ uri: itemImg }} />
           <Text style={styles.name}>{(itemName)}</Text>
           <Text style={styles.price}>{(itemPrice)}</Text>
           <Text style={styles.description}>{(itemDescription)}</Text>
         </View>
+
         <View style={styles.separator}></View>
+
         <View style={styles.addToCarContainer}>
           <TouchableOpacity style={styles.shareButton} onPress={clickEventListener}>
             <Text style={styles.shareButtonText}>Adicionar a Carteira</Text>
           </TouchableOpacity>
         </View>
+
       </ScrollView>
+
     </View>
   );
 }
