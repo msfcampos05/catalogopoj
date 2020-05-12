@@ -7,7 +7,6 @@ class FireFunctions {
     //Criar um novo usuário e atualizar os campos de profile
     addUser = async ({ username, email, phone_number, adress, password, localUri }) => {
 
-
         return new Promise((res, rej) => {
 
             this.auth
@@ -47,6 +46,7 @@ class FireFunctions {
         });
     };
 
+    //Faz o upload da imagem para o storage e retorna a função addUser uri da imagem.
     uploadUserPhotoAsync = async uri => {
         const path = `users/${this.uid}/${this.uid}.jpg`;
 
@@ -73,6 +73,7 @@ class FireFunctions {
         });
     };
 
+    //Adiciona um novo produto-cupon 
     addPost = async ({ text, price, description, localUri }) => {
         const remoteUri = await this.uploadPhotoAsync(localUri);
 
@@ -93,7 +94,8 @@ class FireFunctions {
                 });
         });
     };
-
+    
+    //Faz o upload da imagem para o storage e retorna a função addpost uri da imagem.
     uploadPhotoAsync = async uri => {
         const path = `products/${this.uid}/${Date.now()}.jpg`;
 
