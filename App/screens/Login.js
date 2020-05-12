@@ -14,23 +14,23 @@ import {
 
 import logo from '../../assets/Logo-1.png';
 
-//Lottie depence 
+//Lottie Dependencia
 import Lottie from 'lottie-react-native';
-//Lottie File 
+//Lottie Arquivo JSON
 import dataloading from '../Components/loaders/mario.json';
-
-
+//Dependencia Firebase
 import * as firebase from 'firebase'
+//Firebase Config
 import Firebase from '../config/firebase'
-import "firebase/auth";
 
 export default ({ navigation }) => {
 
-
+  //Inicializar Firebaseconfig 
   if (!firebase.apps.length) {
     firebase.initializeApp(Firebase);
   }
 
+  //Variáveis estado
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -51,9 +51,8 @@ export default ({ navigation }) => {
 
   }
 
+  // Fazer login ao clicar no botao fazer login 
   async function handleSubmit() {
-
-
 
     if (email == null || email === '' || password == null || password === '') {
 
@@ -66,13 +65,12 @@ export default ({ navigation }) => {
         .signInWithEmailAndPassword(email, password)
         .then(() => {
 
-          //chek is is new user to redirect to welcome screen
-
+          //Seta variável Loading como true para a animação iniciar
           setLoading(true);
-          //Loading awai 1000ms to close
+          //Temporizador esperar ms para sair da animação
           setTimeout(() => {
+            //Seta variável Loading como false para a animação parar
             setLoading(false);
-            // if isNewUser is true direct to welcome screen else to home called tab1 (condição ternária javascript)
           },
             3500);
 
@@ -82,26 +80,26 @@ export default ({ navigation }) => {
           var errorCode = error.code;
 
           setLoading(false);
-
+          //Tratamento de Erros Firebase
           if (errorCode === 'auth/wrong-password') {
 
-            alertDefault('Sua senha não corresponde a senha cadastrada!');
+            alertDefault('Sua senha não corresponde a senha cadastrada!'); //Senha incorreta
 
           } else if (errorCode === 'auth/invalid-email') {
 
-            alertDefault('Verifique se o email foi digitado corretamente!');
+            alertDefault('Verifique se o email foi digitado corretamente!'); //Email Incorreto
 
           } else if (errorCode === 'auth/user-disabled') {
 
-            alertDefault('Seu usuário foi desabilitado!');
+            alertDefault('Seu usuário foi desabilitado!'); //Usuário desabilitado
 
 
           } else if (errorCode === 'auth/user-not-found') {
 
-            alertDefault('Seu usuário não foi encontrato no sistema!');
+            alertDefault('Seu usuário não foi encontrato no sistema!'); //Usuário naõ existe no banco de dados
 
           } else {
-            alertDefault('Verifique a conexão com a internet ou contate o administrador do sistema!');
+            alertDefault('Verifique a conexão com a internet ou contate o administrador do sistema!'); //Outros erros
           }
           console.log(error);
 
@@ -121,6 +119,7 @@ export default ({ navigation }) => {
     } else {
 
       setLoading(true);
+
       await firebase.auth().sendPasswordResetEmail(email)
         .then(function (user) {
 
@@ -140,7 +139,7 @@ export default ({ navigation }) => {
     }
   }
 
-  //loading
+  //loading == true então a animação de loading é carregada 
   if (loading == true) {
     return (
       <View

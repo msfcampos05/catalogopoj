@@ -6,7 +6,7 @@ import FireFunctions from "../config/FireFunctions";
 import * as ImagePicker from "expo-image-picker";
 
 export default class addProductScreen extends React.Component {
-  
+
   //Variáveis de estado
   state = {
     username: '', password: '', email: '', adress: '', image: null, phone_number: ''
@@ -57,6 +57,7 @@ export default class addProductScreen extends React.Component {
     return (
       <>
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
+          
           <View>
             {this.state.image ? (
               <Image
@@ -68,7 +69,6 @@ export default class addProductScreen extends React.Component {
                   <Image style={styles.ButtonImg} source={require('../../assets/add_p.png')} />
                 </TouchableOpacity>
               )}
-
 
             <View style={styles.filds}>
 
@@ -134,8 +134,8 @@ export default class addProductScreen extends React.Component {
                       : true
                   }>
                 </Button>
-
               </View>
+
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -144,33 +144,41 @@ export default class addProductScreen extends React.Component {
   }
 }
 
+//Estilização da página css
+
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignContent: 'center'
   },
+
   filds: {
     alignSelf: 'stretch',
     paddingHorizontal: 30,
     marginBottom: 40
   },
+
   Tittle: {
     fontSize: 20,
     fontWeight: 'bold',
     alignSelf: 'center',
     marginBottom: 20
   },
+
   ButtonImg: {
     marginBottom: 100,
     alignSelf: 'center',
     width: 100,
     height: 100
   },
+
   ButtonSend: {
     marginTop: 20
   },
+
   inputName: {
     borderWidth: 1,
     borderColor: '#DDD',
@@ -180,6 +188,7 @@ const styles = StyleSheet.create({
     height: 44,
     marginBottom: 10,
   },
+
   inputEmail: {
     borderWidth: 1,
     borderColor: '#DDD',
@@ -189,6 +198,7 @@ const styles = StyleSheet.create({
     height: 44,
     marginBottom: 10,
   },
+
   inputPhone: {
     borderWidth: 1,
     borderColor: '#DDD',
@@ -198,6 +208,7 @@ const styles = StyleSheet.create({
     height: 44,
     marginBottom: 10,
   },
+
   inputadress: {
     borderWidth: 1,
     borderColor: '#DDD',
@@ -207,6 +218,7 @@ const styles = StyleSheet.create({
     height: 44,
     marginBottom: 10,
   },
+
   inputPassword: {
     borderWidth: 1,
     borderColor: '#DDD',
