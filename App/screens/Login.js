@@ -110,6 +110,7 @@ export default ({ navigation }) => {
 
   };
 
+  //Função para botão esquecer senha 
   const forgotPassword = async () =>  {
 
     if (email == null || email === '') {
@@ -140,6 +141,8 @@ export default ({ navigation }) => {
   }
 
   //loading == true então a animação de loading é carregada 
+  loading ? {} : {} 
+  
   if (loading == true) {
     return (
       <View
