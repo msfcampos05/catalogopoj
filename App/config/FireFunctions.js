@@ -33,11 +33,11 @@ class FireFunctions {
                 })
                 .catch(error => {
                     if (error.code === 'auth/email-already-in-use') {
-                        console.log('That email address is already in use!');
+                        console.log('O email ja está sendo usado');
                     }
 
                     if (error.code === 'auth/invalid-email') {
-                        console.log('That email address is invalid!');
+                        console.log('Email invalido');
                     }
 
                     console.error(error);
