@@ -2,7 +2,6 @@ import React from "react";
 import { View, Alert, Text, StyleSheet, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, TextInput, Image, Button,StatusBar } from "react-native";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
-import { Ionicons } from "@expo/vector-icons";
 import FireFunctions from "../config/FireFunctions";
 import * as firebase from 'firebase'
 import * as ImagePicker from "expo-image-picker";
@@ -27,12 +26,13 @@ export default class addProductScreen extends React.Component {
             const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
             if (status != "granted") {
-                alert("We need permission to use your camera roll if you'd like to incude a photo.");
+                alert("Você precisa dar permissão para que o aplicativo use a camera");
             }
         }
     };
 
      handlePost = async () => {
+         
         this.setState({loading:true });
         FireFunctions.shared
             .addPost({ text: this.state.text.trim(), price: this.state.price.trim(), description: this.state.description.trim(), localUri: this.state.image })
