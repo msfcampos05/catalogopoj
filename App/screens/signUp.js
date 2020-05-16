@@ -4,6 +4,7 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import FireFunctions from "../config/FireFunctions";
 import * as ImagePicker from "expo-image-picker";
+import userimg from "../../assets/userimg.png"
 
 export default class addProductScreen extends React.Component {
 
@@ -22,23 +23,30 @@ export default class addProductScreen extends React.Component {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
       if (status != "granted") {
-        alert("We need permission to use your camera roll if you'd like to incude a photo.");
+        alert("Precisa de permissão do sistema");
       }
     }
   };
 
   //Criar usuário Firebase usando uma função definina no arquivo Firefunctions dentro da pasta App/config/FireFunctions.js
   handleCreate = () => {
+    if(this.state.password.length<6){
+      alert('A senha precisa ter 6 ou mais caracteres')
+
+    }
+    else
+    {
     FireFunctions.shared
       .addUser({ username: this.state.username.trim(), phone_number: this.state.phone_number.trim(), email: this.state.email.trim(), password: this.state.password.trim(), adress: this.state.adress.trim(), localUri: this.state.image })
       .then(ref => {
-        this.setState({ username: "", image: null, password: "", email: "", adress: "", phone_number: "" });
+        this.setState({ username: "", image : null, password: "", email: "", adress: "", phone_number: "" });
         this.props.navigation.push('Home');
       })
       .catch(error => {
         alert(error);
       });
-  };
+  }
+};
 
   //Função para abrir a camera e pegar imagem da galeria
   pickImage = async () => {
@@ -129,7 +137,7 @@ export default class addProductScreen extends React.Component {
                   title='Cadastrar'
                   onPress={this.handleCreate}
                   disabled={
-                    this.state.image && this.state.username && this.state.adress && this.state.password && this.state.email && this.state.phone_number
+                     this.state.username && this.state.adress && this.state.password && this.state.email && this.state.phone_number
                       ? false
                       : true
                   }>
