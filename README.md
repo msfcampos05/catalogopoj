@@ -12,11 +12,11 @@
 
 ## Um aplicativo para potencializar suas vendas.
 
-Descontos e promoções de maneira fácil e intuitiva
+Descontos e promoções de maneira fácil e intuitiva !
 
-Tenha um catalogo de cupons virtual para sua loja. Com ele, suas promoções podem atingir um publico ainda maior. O DescontoFacilApp é pensado para que seu cliente possa visualizar promoções e guardar cupons para uso posterior. Esses cupons podem ser validados diretamente no caixa, sem burocracia, sem complicações. O cliente fica satisfeito e o alcance do seu publico fica maior. 
+Tenha um catalogo de cupons virtual para sua loja. Com ele, suas promoções podem atingir um público ainda maior. O DescontoFacilApp é pensado para que seu cliente possa visualizar promoções e guardar cupons para uso posterior. Esses cupons podem ser validados diretamente no caixa, sem burocracia e sem complicações. Com o DescontoFácilApp, o cliente fica satisfeito e o alcance do seu público fica maior. 
 
-## Visite nosso site!!!
+## Visite nosso site e confira !
 [https://msfcampos05.wixsite.com/guiadecomprasapp](https://msfcampos05.wixsite.com/guiadecomprasapp)
 
 ## Functionality Implementention Sprints
