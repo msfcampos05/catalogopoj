@@ -4,7 +4,7 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import FireFunctions from "../config/FireFunctions";
 import * as ImagePicker from "expo-image-picker";
-import userimg from "../../assets/userimg.png"
+
 
 export default class addProductScreen extends React.Component {
 
