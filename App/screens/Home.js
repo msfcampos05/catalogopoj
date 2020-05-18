@@ -58,7 +58,7 @@ export default class Home extends Component {
   }
 
   //Alert para confirmar item adicionado a wallet 
-  addItemWalletById(id) {
+  DeleteItemWalletById(id) {
     Alert.alert(
       'Deseja excuir o cupom?',
       'Esta ação não pode ser desfeita!',
