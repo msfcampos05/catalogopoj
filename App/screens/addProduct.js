@@ -26,7 +26,7 @@ export default class addProductScreen extends React.Component {
             const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
             if (status != "granted") {
-                alert("Você precisa dar permissão para que o aplicativo use a camera");
+                alert("Você precisa dar permissão para que o aplicativo use a câmera do celular");
             }
         }
     };
@@ -39,7 +39,7 @@ export default class addProductScreen extends React.Component {
             .then(ref => {
 
                 setTimeout(() => {
-                     Alert.alert('Tudo certo!', 'Cupon de desconto disponível.', [
+                     Alert.alert('Tudo certo!', 'Cupom de desconto disponível.', [
                         {
                             text: 'Fechar',
                             style: 'cancel',
@@ -135,7 +135,7 @@ export default class addProductScreen extends React.Component {
                             title='Cadastrar'
                             onPress={this.handlePost}
                             disabled={
-                                this.state.image && this.state.text && this.state.description && this.state.price
+                            this.state.image && this.state.text && this.state.description && this.state.price
                                     ? false
                                     : true
                         }>    
