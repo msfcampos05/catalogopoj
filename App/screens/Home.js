@@ -105,7 +105,7 @@ export default class Home extends Component {
 
   //Mount component 
   componentDidMount() {
-    console.log(firebase.auth().currentUser.photoURL)
+    
     var Unmount;
 
     Unmount = this.getFirebaseData().then(() => {
@@ -117,7 +117,7 @@ export default class Home extends Component {
         2000);
     }
     );
-    this.componentWillUnmount(Unmount)
+    this.componentWillUnmount(Unmount) //desmontar componente
   }
 
 
