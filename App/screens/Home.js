@@ -236,7 +236,7 @@ export default class Home extends Component {
     );
   }
 }
-
+// style da tela CSS
 const styles = StyleSheet.create({
   container: {
     flex: 1,

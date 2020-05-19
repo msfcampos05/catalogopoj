@@ -18,7 +18,7 @@ export default class addProductScreen extends React.Component {
     };
 
     componentDidMount() {
-        this.getPhotoPermission();
+        this.getPhotoPermission(); //funciona do ios
     }
 
     getPhotoPermission = async () => {
