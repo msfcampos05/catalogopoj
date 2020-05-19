@@ -75,7 +75,7 @@ class FireFunctions {
 
     //Adiciona um novo produto-cupon 
     addPost = async ({ text, price, description, localUri }) => {
-        const remoteUri = await this.uploadPhotoAsync(localUri);
+        const remoteUri = await this.uploadPhotoAsync(localUri); //manda img para o firebase
 
         return new Promise((res, rej) => {
             this.firestore
