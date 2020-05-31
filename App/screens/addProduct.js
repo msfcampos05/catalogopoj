@@ -18,9 +18,9 @@ export default class addProductScreen extends React.Component {
     };
 
     componentDidMount() {
-        this.getPhotoPermission(); //funciona do ios
+        this.getPhotoPermission();
     }
-
+//Permissão para acessar a camera do IOS
     getPhotoPermission = async () => {
         if (Constants.platform.ios) {
             const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -55,12 +55,12 @@ export default class addProductScreen extends React.Component {
                 alert(error);
             });
     };
-
+    //Acessar a camera
     pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-           
+            
         });
 
         if (!result.cancelled) {

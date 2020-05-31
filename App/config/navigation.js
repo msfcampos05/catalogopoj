@@ -138,9 +138,11 @@ const RootStackScreen = () => {
       {isLoading ? ( 
         <RootStack.Screen name="Loading" component={Loading} />
       ) : user ? ( //se user != null ele carrega a tela vai para tabs
-        <RootStack.Screen name="AppTabsScreen" component={AppTabsScreen} /> //Tab Navigator - Tab bar ou barra de tabs menu inferior contem 3 tabs Home, Wallet e Profile 
+        //Tab Navigator - Tab bar ou barra de tabs menu inferior contem 3 tabs Home, Wallet e Profile 
+        <RootStack.Screen name="AppTabsScreen" component={AppTabsScreen} /> 
       ) : (
-        <RootStack.Screen name="AuthStackScreen" component={AuthStackScreen} /> //Caso user == null ele vai para AuthStackScreen Telas de autenticação e login AuthStack navigator
+        //Caso user == null ele vai para AuthStackScreen Telas de autenticação e login AuthStack navigator
+        <RootStack.Screen name="AuthStackScreen" component={AuthStackScreen} /> 
           )}
 
     </RootStack.Navigator>
