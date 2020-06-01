@@ -15,7 +15,7 @@ import {
 import { FlatList } from 'react-native-gesture-handler';
 import * as firebase from 'firebase';
 const { width, height } = Dimensions.get('window');
-import QRCode from 'react-native-qrcode-generator';
+//import QRCode from 'react-native-qrcode-generator';
 export default class Wallet extends Component {
 
   constructor(props) {
@@ -178,15 +178,7 @@ export default class Wallet extends Component {
                     <Text style={styles.price}>{item.valor}</Text>
                   </View>
          
-                  <View style={styles.qrView}>
                 
-                  <QRCode
-                      value={item.id}
-                      size={this.state.qrSize}
-                      bgColor='black'
-                      fgColor='white' />
-                  
-                  </View>
   
                 </View>
               </TouchableOpacity>
@@ -297,4 +289,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-});
+})
