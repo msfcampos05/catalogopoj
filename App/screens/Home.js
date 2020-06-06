@@ -6,21 +6,29 @@ import {
   StatusBar,
   TextInput,
   Image,
-  Dimensions,
   TouchableOpacity,
   Alert,
   SafeAreaView,
+  ScrollView
 } from 'react-native';
 
-import { FlatList } from 'react-native-gesture-handler';
+//PlusButton Image
 import addImage from '../../assets/plusCategory.png';
-import * as firebase from 'firebase';
-import Lottie from 'lottie-react-native';
-import dataloading from '../Components/loaders/home-loading.json';
-import deleteLoading from '../Components/loaders/check.json';
 
-//Pega as dimenções da tela
-const { width, height } = Dimensions.get('window');
+//Firebase import 
+import * as firebase from 'firebase';
+
+//list product component
+import Product from '../Components/ProductList';
+
+//Lottie Componet to Loading Select
+import LoadingComponent from '../Components/defaultLoading/lottieLoading';
+
+//Lottie Fires 
+import deleteLoading from '../Components/loaders/check.json';
+import HomeLoading from '../Components/loaders/main-feed-page.json'
+
+console.disableYellowBox = true;
 
 export default class Home extends Component {
 
@@ -31,34 +39,35 @@ export default class Home extends Component {
       query: null,
       loading: false,
       data: [],
-      whatoading: 1
+      whatoading: 1,
+      barIcon: 'https://img.icons8.com/ios/100/000000/search--v1.png'
     };
-    
+
     this.dataBackup = [];
   }
 
-  //Adiciona item a carteira pegando id do produto passados pelo Button
-  handledeleteItembyId = async (id) =>{
+  //add item to wallet 
+  handledeleteItembyId = async (id) => {
 
-    this.setState({whatoading: 'delete' });
-    this.setState({loading: true });
+    this.setState({ whatoading: 2 });
+    this.setState({ loading: true });
 
     await firebase.firestore()
       .collection("products")
       .doc(id)
-      .delete().then( ()=> {
-      setTimeout(() => {
-        this.setState({loading: false });
-      },
-        300);
+      .delete().then(() => {
+        setTimeout(() => {
+          this.setState({ loading: false });
+        },
+          300);
         console.log("Document successfully deleted!");
       }).catch(function (error) {
         console.error("Error removing document: ", error);
       });
   }
 
-  //Alert para confirmar item adicionado a wallet 
-  DeleteItemWalletById(id) {
+  //Alert to confirm add item to wallet
+  addItemWalletById(id) {
     Alert.alert(
       'Deseja excuir o cupom?',
       'Esta ação não pode ser desfeita!',
@@ -71,16 +80,16 @@ export default class Home extends Component {
 
   }
 
-  //Pegar array de produtos do firebase
+  //Get user info from firebase
   getFirebaseData = async () => {
 
     await firebase.firestore()
-      .collection('products') //Coleção 'products'
+      .collection('products')
       .onSnapshot(querySnapshot => {
         const list = [];
-        querySnapshot.forEach(doc => { //Para cada documento
+        querySnapshot.forEach(doc => {
           const { descricao, img, produto, valor } = doc.data();
-          list.push({ 
+          list.push({
             id: doc.id,
             descricao,
             img,
@@ -89,8 +98,8 @@ export default class Home extends Component {
           });
 
         });
+        this.dataBackup = list;
 
-        //Guarda os dados na variável data pegos através do push no array data[]
         this.setState({
           data: list,
         })
@@ -105,19 +114,20 @@ export default class Home extends Component {
 
   //Mount component 
   componentDidMount() {
-    
+    console.log(firebase.auth().currentUser.photoURL)
     var Unmount;
 
     Unmount = this.getFirebaseData().then(() => {
-      this.setState({whatoading: 1 });
-      this.setState({loading: true });
+      this.setState({ whatoading: 1 });
+      this.setState({ loading: true });
       setTimeout(() => {
-        this.setState({loading: false });
+        this.setState({ loading: false });
       },
         2000);
     }
     );
-    this.componentWillUnmount(Unmount) //desmontar componente
+
+    this.componentWillUnmount(Unmount)
   }
 
 
@@ -125,38 +135,86 @@ export default class Home extends Component {
     Unmount;
   }
 
-  //SearchBar Ainda não funcionando 
+  //SearchBar working 
   filterItem = event => {
 
+    //Armazena texto do input search
+    var text = event.nativeEvent.text;
+    if (text == '') {
+      this.setState({
+        barIcon: 'https://img.icons8.com/ios/100/000000/search--v1.png'
+      })
+    } else {
+      this.setState({
+        barIcon: 'https://img.icons8.com/ios/50/000000/left.png'
+      })
+    }
+
+    this.setState({
+      query: text,
+    });
+
+    const newData = this.dataBackup.filter(item => {
+      const itemData = `${item.produto.toUpperCase()} ${item.descricao.toUpperCase()} ${item.valor.toUpperCase()}`;
+      const textData = text.toUpperCase();
+
+      return itemData.indexOf(textData) > -1;
+    });
+
+    this.setState({
+      data: newData,
+    });
+
   };
 
-  //Separador da flatlist
-  separator = () => {
-    return (
-      <View style={{ height: 5, width: '100%', backgroundColor: '#e5e5e5' }} />
-    );
-  };
+  searchIconBack = () => {
 
-  //Render Loading
-  render() {
-    //Loading Lottie 
-    if (this.state.loading == true && this.state.whatoading == 1) {
-      return (
-        <View style={{ flex: 1,justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#9b58b6' }}>
-          <Lottie source={dataloading} style={{ width: 350, height: 350 }} autoPlay loop />
-          <Text style={{ textAlign: 'center', color: '#ffff', fontSize: 12 }}>Aguarde...</Text>
-        </View>
-      )
-    }else if (this.state.loading == true && this.state.whatoading == 'delete') {
-      return (
-          <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#ffff' }}>
-              <Lottie source={deleteLoading} style={{ width: 350, height: 350 }} autoPlay loop />
-          </View>
-      )
+    if (this.state.barIcon == 'https://img.icons8.com/ios/50/000000/left.png') {
+      this.setState({
+        barIcon: 'https://img.icons8.com/ios/100/000000/search--v1.png',
+        query: null
+      })
+      this.getFirebaseData();
+    }
+
   }
 
+  _loadingView() {
+    if (this.state.loading == true && this.state.whatoading == 1) { return (<LoadingComponent data={HomeLoading} />) }
+    if (this.state.loading == true && this.state.whatoading == 2) { return (<LoadingComponent data={deleteLoading} />) }
+
+  }
+
+
+  _renderItens() {
+
     const { navigation } = this.props;
-    console.disableYellowBox = true;
+
+    return (
+      <View style={styles.ProductContainer}>
+
+        {this.state.data.map(data =>
+          <TouchableOpacity
+            onLongPress={() => this.addItemWalletById(data.id)}
+            onPress={() => {
+              navigation.push('ProductDetails', {
+                itemId: data.id,
+                itemName: data.produto,
+                itemPrice: data.valor,
+                itemImg: data.img,
+                itemDescription: data.descricao,
+              })
+            }}>
+            <Product key={data.id} data={data} />
+          </TouchableOpacity>
+        )}
+      </View>
+    )
+  }
+
+  //Render 
+  render() {
+    const { navigation } = this.props;
 
     return (
       <SafeAreaView style={styles.container}>
@@ -167,80 +225,54 @@ export default class Home extends Component {
           <Text style={styles.headerTitle}>Desconto Fácil App</Text>
         </View>
 
-        <View style={styles.header}>
-          <View style={styles.SectionStyle}>
-            <Image
-              //We are showing the Image from online
-              source={{ uri: 'https://img.icons8.com/ios/100/000000/search--v1.png', }}
-              //Image Style
-              style={styles.ImageStyle}
-            />
-            <TextInput
-              underlineColorAndroid="transparent"
-              placeholder="O que procura..."
-              placeholderTextColor="gray"
-              value={this.state.query}
-              onChange={this.filterItem.bind(this)}
-              style={styles.input}
-            />
-          </View>
-        </View>
-
-        <FlatList
-          data={this.state.data}
-          ItemSeparatorComponent={() => this.separator()}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => {
-            
-            return (
-              <TouchableOpacity
-                onLongPress={() => this.addItemWalletById(item.id)}
-                onPress={() => {
-                  navigation.push('ProductDetails', {
-                    itemId: item.id,
-                    itemName: item.produto,
-                    itemPrice: item.valor,
-                    itemImg: item.img,
-                    itemDescription: item.descricao,
-                  })
-                }}>
-                <View style={styles.productContainer}>
-                  <Image
-                    resizeMode="contain"
-                    style={styles.image}
-                    source={{ uri: item.img }}
-                  />
-                  <View style={styles.dataContainer}>
-                    <Text numberOfLines={1} style={styles.title}>
-                      {item.produto}
-                    </Text>
-                    <Text numberOfLines={8} style={styles.description}>
-                      {item.descricao}
-                    </Text>
-                    <Text style={styles.price}>{item.valor}</Text>
-                  </View>
-                </View>
+        <ScrollView>
+          <View style={styles.header}>
+            <View style={styles.SectionStyle}>
+              <TouchableOpacity onPress={() => this.searchIconBack()}>
+                <Image
+                  //We are showing the Image from online
+                  source={{ uri: this.state.barIcon }}
+                  //Image Style
+                  style={styles.ImageStyle}
+                />
               </TouchableOpacity>
-            );
-
-          }}
-        />
-        <View>
-          <TouchableOpacity style={styles.addButton} onPress={() => navigation.push('addProducts')}>
-            <View style={styles.ViewiButton}>
-              <Image style={styles.Image} source={addImage} />
+              <TextInput
+                underlineColorAndroid="transparent"
+                placeholder="O que procura..."
+                placeholderTextColor="gray"
+                value={this.state.query}
+                onChange={this.filterItem.bind(this)}
+                style={styles.input}
+              />
             </View>
-          </TouchableOpacity>
-        </View>
+          </View>
+          {this.state.loading ? this._loadingView() : this._renderItens()
+
+          }
+
+        </ScrollView>
+
+        <TouchableOpacity style={styles.addButton} onPress={() => navigation.push('addProducts')}>
+          <View style={styles.ViewiButton}>
+            <Image style={styles.Image} source={addImage} />
+          </View>
+        </TouchableOpacity>
+
       </SafeAreaView>
     );
   }
 }
-// style da tela CSS
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f8f8fa",
+  },
+  ProductContainer: {
+    padding: 15,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   header: {
     height: 60,
@@ -282,35 +314,7 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
     alignItems: 'center',
   },
-  productContainer: {
-    flexDirection: 'row',
-    padding: 2,
-  },
-  image: {
-    height: 150,
-    width: 90,
-    alignSelf: "center"
-  },
-  dataContainer: {
-    padding: 5,
-    paddingTop: 5,
-    width: width - 100,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#000"
-  },
-  description: {
-    fontSize: 14,
-    color: 'gray',
-    textAlign: 'justify',
-  },
-  price: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#000"
-  },
+
   Image: {
     width: 20,
     height: 23,
@@ -330,13 +334,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
 });
-
-
-
-
-
-
-
-
-
-
