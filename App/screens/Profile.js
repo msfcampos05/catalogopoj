@@ -171,6 +171,7 @@ export default function Profile({ navigation }) {
                         setTimeout(() => {
                             setLoading(false);
                             setModalVisible(!modalVisible);
+                            getUserInfo();
                             Alert.alert('Tudo certo!', 'Seus dados foram atualizados', [
                                 {
                                     text: 'Fechar',
@@ -360,7 +361,7 @@ const styles = StyleSheet.create({
         borderColor: '#DDD',
         paddingHorizontal: 20,
         fontSize: 16,
-        color: '#f05a5b',
+        color: '#ffff',
         height: 44,
         marginBottom: 20,
         borderRadius: 12
@@ -385,7 +386,7 @@ const styles = StyleSheet.create({
     TextName: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#ffff',
+        color: '#fff',
         alignSelf: 'center',
         marginTop: 20
     },
@@ -408,7 +409,7 @@ const styles = StyleSheet.create({
     },
 
     buttonText: {
-        color: '#FFFF',
+        color: '#ffff',
         fontWeight: 'bold',
         fontSize: 16,
         marginLeft: 80,
